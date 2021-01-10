@@ -1,0 +1,42 @@
+Include "film.pbrt"
+Include "camera.pbrt"
+
+Camera "perspective" "float fov" 30
+
+Sampler "halton" "integer pixelsamples" 256
+Integrator "path"
+
+WorldBegin
+
+LightSource "distant" "point from" [0 10 60] "rgb L" [1 1 1]
+#AttributeBegin
+#Rotate 270 1 0 0
+#Translate 200 0 0 
+#LightSource "infinite" "string mapname" "pond.exr" 
+#AttributeEnd
+
+MakeNamedMaterial "fire" "string type" "uber" "color Kd" [1 0 0] "color Ks" [1 1 1] "float roughness" [0.01]
+
+NamedMaterial "fire"
+
+# Name "hydrant_low"
+AttributeBegin
+# Material unspecified in OBJ file
+Shape "plymesh" "string filename" "fire.ply"
+ 
+AttributeEnd
+
+AttributeBegin
+Rotate 90 1 0 0
+Material "uber"
+ #"color Kd" [.1 .07 .05]
+ "color Kd" [.75 .45 .25] # Alternate
+ "float roughness" 1
+Translate 0 0 55
+Shape "trianglemesh"
+   "point P" [ -100 -100 0   100 -100 0   100 100 0 -100 100 0 ]
+   "float uv" [ 0 0 1 0 1 1 0 1 ]
+	"integer indices" [ 0 1 2 2 3 0]
+AttributeEnd
+
+WorldEnd

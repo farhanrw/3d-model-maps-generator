@@ -1,0 +1,50 @@
+Include "film.pbrt"
+Include "camera.pbrt"
+
+Camera "perspective" "float fov" 30
+
+Sampler "halton" "integer pixelsamples" 128
+Integrator "path"
+
+WorldBegin
+
+LightSource "distant" "point from" [0 10 60] "rgb L" [1 1 1]
+#AttributeBegin
+#Rotate 270 1 0 0
+#Translate 200 0 0 
+#LightSource "infinite" "string mapname" "pond.exr" 
+#AttributeEnd
+
+MakeNamedMaterial "random" "string type" "uber" "color Kd" [0 0 .5] "color Ks" [1 1 1] "float roughness" [0.01]
+MakeNamedMaterial "wood" "string type" "uber" "color Kd" [.60 .4 .17] "color Ks" [0 0 0] "float roughness" [1]
+MakeNamedMaterial "paint" "string type" "uber" "color Kd" [.402 .2 .65] "color Ks" [0 0 0] "float roughness" [1]
+
+NamedMaterial "paint"
+AttributeBegin
+Shape "plymesh" "string filename" "fire-top.ply"
+AttributeEnd
+NamedMaterial "wood"
+AttributeBegin
+Shape "plymesh" "string filename" "fire-low.ply"
+AttributeEnd
+NamedMaterial "wood"
+AttributeBegin
+Shape "plymesh" "string filename" "fire-mid.ply"
+AttributeEnd
+
+
+AttributeBegin
+Rotate 90 1 0 0
+Material "uber"
+ #"color Kd" [.1 .07 .05]
+ "color Kd" [.1 .07 .05] # Alternate
+ "color Ks" [0 0 0]
+ "float roughness" 1
+Translate 0 0 55
+Shape "trianglemesh"
+   "point P" [ -100 -100 0   100 -100 0   100 100 0 -100 100 0 ]
+   "float uv" [ 0 0 1 0 1 1 0 1 ]
+	"integer indices" [ 0 1 2 2 3 0]
+AttributeEnd
+
+WorldEnd
